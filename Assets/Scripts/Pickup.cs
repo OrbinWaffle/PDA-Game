@@ -12,13 +12,15 @@ public class Pickup : MonoBehaviour
     Transform orgLeftTransform;
     Rigidbody objInRightHand;
     Rigidbody objInLeftHand;
+    Collider playerCollider;
     void Awake()
     {
-        Debug.Log("A OKAY");
         InputManager.instance.playerActions.XRIRightHand.MouseClick.performed += RightHandGrab;
         InputManager.instance.playerActions.XRIRightHand.MouseClick.canceled += RightHandGrab;
         InputManager.instance.playerActions.XRILeftHand.MouseClick.performed += LeftHandGrab;
         InputManager.instance.playerActions.XRILeftHand.MouseClick.canceled += LeftHandGrab;
+
+        playerCollider = GetComponent<Collider>();
     }
     void RightHandGrab(InputAction.CallbackContext value)
     {
@@ -64,10 +66,14 @@ public class Pickup : MonoBehaviour
                         }
                     }
                 }
-                closestRB.isKinematic = true;
-                orgRightTransform = closestRB.transform.parent;
-                closestRB.transform.parent = rightHandTransform;
-                objInRightHand = closestRB;
+                if (closestRB != null)
+                {
+                    closestRB.isKinematic = true;
+                    Physics.IgnoreCollision(playerCollider, closestRB.GetComponent<Collider>(), true);
+                    orgRightTransform = closestRB.transform.parent;
+                    closestRB.transform.parent = rightHandTransform;
+                    objInRightHand = closestRB;
+                }
             }
         }
         else
@@ -75,6 +81,7 @@ public class Pickup : MonoBehaviour
             if(objInRightHand != null)
             {
                 objInRightHand.isKinematic = false;
+                Physics.IgnoreCollision(playerCollider, objInRightHand.GetComponent<Collider>(), false);
                 objInRightHand.transform.parent = orgRightTransform;
                 objInRightHand = null;
             }
@@ -102,10 +109,14 @@ public class Pickup : MonoBehaviour
                         }
                     }
                 }
-                closestRB.isKinematic = true;
-                orgLeftTransform = closestRB.transform.parent;
-                closestRB.transform.parent = leftHandTransform;
-                objInLeftHand = closestRB;
+                if (closestRB != null)
+                {
+                    closestRB.isKinematic = true;
+                    Physics.IgnoreCollision(playerCollider, closestRB.GetComponent<Collider>(), true);
+                    orgLeftTransform = closestRB.transform.parent;
+                    closestRB.transform.parent = leftHandTransform;
+                    objInLeftHand = closestRB;
+                }
             }
         }
         else
@@ -113,6 +124,7 @@ public class Pickup : MonoBehaviour
             if (objInLeftHand != null)
             {
                 objInLeftHand.isKinematic = false;
+                Physics.IgnoreCollision(playerCollider, objInLeftHand.GetComponent<Collider>(), false);
                 objInLeftHand.transform.parent = orgLeftTransform;
                 objInLeftHand = null;
             }
