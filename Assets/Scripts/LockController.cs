@@ -4,29 +4,45 @@ using UnityEngine;
 
 public class LockController : MonoBehaviour
 {
+    [SerializeField] BridgeController parentBridge;
     [SerializeField] string acceptingSymbol;
     [SerializeField] string stackRequirement;
     [SerializeField] string[] stackReplacement;
-    [SerializeField] GameObject bridge;
-    
-    public void EnableBridge()
+    [Tooltip("List of objects corresponding to each symbol in stackReplacement")]
+    [SerializeField] GameObject[] notchObjects;
+
+    public bool lockEnabled = true;
+
+    // Index of the lock in the parent BridgeController's lock list
+    private int lockIndex;
+
+    private void Awake()
     {
-        bridge.SetActive(true);
+        parentBridge.AddLock(this);
     }
-    public void DisableBridge()
+    public void OnChosen()
     {
-        bridge.SetActive(false);
+        // Tell parent bridge that this lock was chosen
+        parentBridge.OnLockChosen(lockIndex);
     }
     public string GetAcceptingSymbol()
     {
         return acceptingSymbol;
     }
-    public string getStackRequirement()
+    public string GetStackRequirement()
     {
         return stackRequirement;
     }
-    public string[] getStackReplacement()
+    public string[] GetStackReplacement()
     {
         return stackReplacement;
+    }
+    public GameObject[] GetNotches()
+    {
+        return notchObjects;
+    }
+    public void SetLockIndex(int newIndex)
+    {
+        lockIndex = newIndex;
     }
 }
