@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class LockController : MonoBehaviour
 {
-    [SerializeField] BridgeController parentBridge;
+    BridgeController parentBridge;
+    IslandController parentIsland;
+    [SerializeField] IslandController targetIsland;
     [SerializeField] string acceptingSymbol;
     [SerializeField] string stackRequirement;
     [SerializeField] string[] stackReplacement;
@@ -18,12 +20,27 @@ public class LockController : MonoBehaviour
 
     private void Awake()
     {
-        parentBridge.AddLock(this);
+        parentBridge = transform.parent.GetComponent<BridgeController>();
+        if (parentBridge != null)
+        {
+            parentIsland = transform.parent.parent.GetComponent<IslandController>();
+        }
+        else
+        {
+            parentIsland = transform.parent.GetComponent<IslandController>();
+        }
+        parentIsland.AddLock(this);
     }
     public void OnChosen()
     {
         // Tell parent bridge that this lock was chosen
-        parentBridge.OnLockChosen(lockIndex);
+        parentIsland.OnLockChosen();
+        if (parentBridge != null)
+        {
+            parentBridge.LowerBridge();
+            parentIsland.ChangeAllLocksOnIsland(false);
+            targetIsland.SetOriginIsland(parentIsland);
+        }
     }
     public string GetAcceptingSymbol()
     {
@@ -44,5 +61,9 @@ public class LockController : MonoBehaviour
     public void SetLockIndex(int newIndex)
     {
         lockIndex = newIndex;
+    }
+    public void SetLockState(bool newState)
+    {
+        lockEnabled = newState;
     }
 }

@@ -15,44 +15,71 @@ public class Pickup : MonoBehaviour
     Rigidbody objInRightHand;
     Rigidbody objInLeftHand;
     Collider playerCollider;
+
+    private Vector2 mousePosition = Vector2.zero;
+
     void Awake()
     {
-        InputManager.instance.playerActions.XRIRightHand.MouseClick.performed += RightHandGrab;
-        InputManager.instance.playerActions.XRIRightHand.MouseClick.canceled += RightHandGrab;
-        InputManager.instance.playerActions.XRILeftHand.MouseClick.performed += LeftHandGrab;
-        InputManager.instance.playerActions.XRILeftHand.MouseClick.canceled += LeftHandGrab;
+        InputManager.instance.playerActions.DefaultControls.HandGrabRight.started += HandGrab;
+        InputManager.instance.playerActions.DefaultControls.HandGrabRight.canceled += HandGrab;
+        InputManager.instance.playerActions.DefaultControls.HandGrabLeft.started += HandGrab;
+        InputManager.instance.playerActions.DefaultControls.HandGrabLeft.canceled += HandGrab;
+
+        InputManager.instance.playerActions.DefaultControls.MousePoint.started += value => mousePosition = value.ReadValue<Vector2>();
+        InputManager.instance.playerActions.DefaultControls.MousePoint.canceled += value => mousePosition = value.ReadValue<Vector2>();
 
         playerCollider = GetComponent<Collider>();
     }
-    void RightHandGrab(InputAction.CallbackContext value)
+
+    public void OnDisable()
     {
-        if (value.performed)
+        InputManager.instance.playerActions.DefaultControls.HandGrabRight.started -= HandGrab;
+        InputManager.instance.playerActions.DefaultControls.HandGrabRight.canceled -= HandGrab;
+        InputManager.instance.playerActions.DefaultControls.HandGrabLeft.started -= HandGrab;
+        InputManager.instance.playerActions.DefaultControls.HandGrabLeft.canceled -= HandGrab;
+
+        InputManager.instance.playerActions.DefaultControls.MousePoint.started -= value => mousePosition = value.ReadValue<Vector2>();
+        InputManager.instance.playerActions.DefaultControls.MousePoint.canceled -= value => mousePosition = value.ReadValue<Vector2>();
+    }
+
+    public void OnDestroy()
+    {
+        if (isActiveAndEnabled)
         {
-            OnRightPickup(true);
-        }
-        else if (value.canceled)
-        {
-            OnRightPickup(false);
+            InputManager.instance.playerActions.DefaultControls.HandGrabRight.started -= HandGrab;
+            InputManager.instance.playerActions.DefaultControls.HandGrabRight.canceled -= HandGrab;
+            InputManager.instance.playerActions.DefaultControls.HandGrabLeft.started -= HandGrab;
+            InputManager.instance.playerActions.DefaultControls.HandGrabLeft.canceled -= HandGrab;
+
+            InputManager.instance.playerActions.DefaultControls.MousePoint.started -= value => mousePosition = value.ReadValue<Vector2>();
+            InputManager.instance.playerActions.DefaultControls.MousePoint.canceled -= value => mousePosition = value.ReadValue<Vector2>();
         }
     }
-    void LeftHandGrab(InputAction.CallbackContext value)
+
+    void HandGrab(InputAction.CallbackContext value)
     {
-        if (value.performed)
+        if (value.action.name == "HandGrabRight")
         {
-            OnLeftPickup(true);
+            if (value.started)
+            {
+                OnPickup(true, rightHandTransform, ref objInRightHand, ref orgRightTransform);
+            }
+            else if (value.canceled)
+            {
+                OnPickup(false, rightHandTransform, ref objInRightHand, ref orgRightTransform);
+            }
         }
-        else if (value.canceled)
+        else if (value.action.name == "HandGrabLeft")
         {
-            OnLeftPickup(false);
+            if (value.started)
+            {
+                OnPickup(true, leftHandTransform, ref objInLeftHand, ref orgLeftTransform);
+            }
+            else if (value.canceled)
+            {
+                OnPickup(false, leftHandTransform, ref objInLeftHand, ref orgLeftTransform);
+            }
         }
-    }
-    void OnRightPickup(bool pickingUp)
-    {
-        OnPickup(pickingUp, rightHandTransform, ref objInRightHand, ref orgRightTransform);
-    }
-    void OnLeftPickup(bool pickingUp)
-    {
-        OnPickup(pickingUp, leftHandTransform, ref objInLeftHand, ref orgLeftTransform);
     }
 
     /// <summary>
@@ -72,22 +99,38 @@ public class Pickup : MonoBehaviour
             Collider[] colliders = Physics.OverlapSphere(handTransform.position, pickupRadius);
             if (colliders.Length > 0)
             {
-                // Find the closest rigidbody
                 Rigidbody closestRB = null;
                 float shortestDist = Mathf.Infinity;
-                foreach (Collider col in colliders)
+                if (InputManager.instance.targetControlScheme == ControlSchemeEnum.VR)
                 {
-                    Rigidbody collidedRB = col.GetComponent<Rigidbody>();
-                    if (collidedRB != null)
+                    // Find the closest rigidbody
+                    foreach (Collider col in colliders)
                     {
-                        float dist = Vector3.Distance(col.transform.position, handTransform.position);
-                        if (dist < shortestDist)
+                        Rigidbody collidedRB = col.GetComponent<Rigidbody>();
+                        if (collidedRB != null)
                         {
-                            shortestDist = dist;
-                            closestRB = collidedRB;
+                            float dist = Vector3.Distance(col.transform.position, handTransform.position);
+                            if (dist < shortestDist)
+                            {
+                                shortestDist = dist;
+                                closestRB = collidedRB;
+                            }
                         }
                     }
                 }
+                else
+                {
+                    Debug.Log("SDLFJLJF");
+                    Ray ray = new Ray();
+                    RaycastHit hit;
+
+                    ray = Camera.main.ScreenPointToRay(mousePosition);
+                    if (Physics.SphereCast(ray, 0.3f, out hit, 300, LayerMask.GetMask("Grabbable"))) //Change to spherecast
+                    {
+                        closestRB = hit.collider.GetComponent<Rigidbody>();
+                    }
+                }
+
                 // If we found it, disable the held object's physics, teleport it into player's hand, and set its parent to the hand
                 if (closestRB != null)
                 {
