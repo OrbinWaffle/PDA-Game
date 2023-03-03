@@ -16,10 +16,12 @@ public class KeyController : MonoBehaviour
     [SerializeField] GameObject initialNotch;
     [SerializeField] TextMeshProUGUI keyText;
     LockController currentLock;
+    private AudioSource audSource;
     void Start()
     {
         keyStack.Push("z");
         AddNotch(initialNotch);
+        audSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -38,7 +40,11 @@ public class KeyController : MonoBehaviour
             }
             // Ensure that the key matches the collided lock's symbol requirements
             bool isValid = TestTransition(LC.GetAcceptingSymbol(), LC.GetStackRequirement(), LC.GetStackReplacement(), LC.GetNotches());
-            if (isValid) { LC.OnChosen(); }
+            if (isValid)
+            {
+                audSource.Play();
+                LC.OnChosen();
+            }
         }
     }
 

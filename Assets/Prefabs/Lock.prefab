@@ -126,11 +126,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b984c14bb0b0e194687a89cb38efe253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetIsland: {fileID: 0}
   acceptingSymbol: 
   stackRequirement: 
   stackReplacement: []
   notchObjects: []
-  bridge: {fileID: 0}
+  lockEnabled: 1
 --- !u!65 &8612226210470596645
 BoxCollider:
   m_ObjectHideFlags: 0

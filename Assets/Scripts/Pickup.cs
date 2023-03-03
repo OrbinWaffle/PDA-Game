@@ -145,11 +145,6 @@ public class Pickup : MonoBehaviour
                     {
                         OnPickup(false, !right, ref otherHandRB, ref heldRB, ref otherHandJoint, ref handJoint);
                     }
-                    KeyController keyController = closestRB.GetComponent<KeyController>();
-                    if (keyController != null)
-                    {
-                        keyController.OnRelease();
-                    }
                     //closestRB.isKinematic = true;
                     Collider[] RBColliders = closestRB.GetComponentsInChildren<Collider>();
                     foreach (Collider col in RBColliders)
@@ -168,17 +163,16 @@ public class Pickup : MonoBehaviour
         {
             if (heldRB != null)
             {
-                KeyController keyController = heldRB.GetComponent<KeyController>();
-                if (keyController != null)
-                {
-                    keyController.isPickedUp = false;
-                }
-                Debug.Log("MOGUES");
                 //heldRB.isKinematic = false;
                 Collider[] RBColliders = heldRB.GetComponentsInChildren<Collider>();
                 foreach (Collider col in RBColliders)
                 {
                     Physics.IgnoreCollision(playerCollider, col, false);
+                }
+                KeyController keyController = heldRB.GetComponent<KeyController>();
+                if (keyController != null)
+                {
+                    keyController.OnRelease();
                 }
                 //heldRB.transform.parent = orgTransform;
                 handJoint.connectedBody = null;
