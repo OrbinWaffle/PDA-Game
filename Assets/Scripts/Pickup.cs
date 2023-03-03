@@ -14,6 +14,8 @@ public class Pickup : MonoBehaviour
     Transform orgLeftTransform;
     Rigidbody objInRightHand;
     Rigidbody objInLeftHand;
+    FixedJoint rightJoint;
+    FixedJoint leftJoint;
     Collider playerCollider;
 
     private Vector2 mousePosition = Vector2.zero;
@@ -29,6 +31,8 @@ public class Pickup : MonoBehaviour
         InputManager.instance.playerActions.DefaultControls.MousePoint.canceled += value => mousePosition = value.ReadValue<Vector2>();
 
         playerCollider = GetComponent<Collider>();
+        rightJoint = rightHandTransform.GetComponent<FixedJoint>();
+        leftJoint = leftHandTransform.GetComponent<FixedJoint>();
     }
 
     public void OnDisable()
@@ -62,22 +66,22 @@ public class Pickup : MonoBehaviour
         {
             if (value.started)
             {
-                OnPickup(true, rightHandTransform, ref objInRightHand, ref orgRightTransform);
+                OnPickup(true, true, ref objInRightHand, ref objInLeftHand, ref rightJoint, ref leftJoint);
             }
             else if (value.canceled)
             {
-                OnPickup(false, rightHandTransform, ref objInRightHand, ref orgRightTransform);
+                OnPickup(false, true, ref objInRightHand, ref objInLeftHand, ref rightJoint, ref leftJoint);
             }
         }
         else if (value.action.name == "HandGrabLeft")
         {
             if (value.started)
             {
-                OnPickup(true, leftHandTransform, ref objInLeftHand, ref orgLeftTransform);
+                OnPickup(true, false, ref objInLeftHand, ref objInRightHand, ref leftJoint, ref rightJoint);
             }
             else if (value.canceled)
             {
-                OnPickup(false, leftHandTransform, ref objInLeftHand, ref orgLeftTransform);
+                OnPickup(false, false, ref objInLeftHand, ref objInRightHand, ref leftJoint, ref rightJoint);
             }
         }
     }
@@ -91,12 +95,12 @@ public class Pickup : MonoBehaviour
     /// <param name="handTransform">The transform of the hand (either left or right) that we want to work with</param>
     /// <param name="heldRB">A refrence to the variable containing the rigidbody currently held in the left/right hand</param> 
     /// <param name="orgTransform">A refrence to the variable containing the original parent of the held transform</param>
-    void OnPickup(bool pickingUp, Transform handTransform, ref Rigidbody heldRB, ref Transform orgTransform)
+    void OnPickup(bool pickingUp, bool right, ref Rigidbody heldRB, ref Rigidbody otherHandRB, ref FixedJoint handJoint, ref FixedJoint otherHandJoint)
     {
         // If we're picking up the object
         if (pickingUp)
         {
-            Collider[] colliders = Physics.OverlapSphere(handTransform.position, pickupRadius);
+            Collider[] colliders = Physics.OverlapSphere(handJoint.transform.position, pickupRadius);
             if (colliders.Length > 0)
             {
                 Rigidbody closestRB = null;
@@ -106,10 +110,14 @@ public class Pickup : MonoBehaviour
                     // Find the closest rigidbody
                     foreach (Collider col in colliders)
                     {
-                        Rigidbody collidedRB = col.GetComponent<Rigidbody>();
+                        if(col.gameObject.layer != 6)
+                        {
+                            continue;
+                        }
+                        Rigidbody collidedRB = col.GetComponentInParent<Rigidbody>();
                         if (collidedRB != null)
                         {
-                            float dist = Vector3.Distance(col.transform.position, handTransform.position);
+                            float dist = Vector3.Distance(col.transform.position, handJoint.transform.position);
                             if (dist < shortestDist)
                             {
                                 shortestDist = dist;
@@ -120,24 +128,37 @@ public class Pickup : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("SDLFJLJF");
                     Ray ray = new Ray();
                     RaycastHit hit;
 
                     ray = Camera.main.ScreenPointToRay(mousePosition);
                     if (Physics.SphereCast(ray, 0.3f, out hit, 300, LayerMask.GetMask("Grabbable"))) //Change to spherecast
                     {
-                        closestRB = hit.collider.GetComponent<Rigidbody>();
+                        closestRB = hit.collider.GetComponentInParent<Rigidbody>();
                     }
                 }
 
                 // If we found it, disable the held object's physics, teleport it into player's hand, and set its parent to the hand
                 if (closestRB != null)
                 {
-                    closestRB.isKinematic = true;
-                    Physics.IgnoreCollision(playerCollider, closestRB.GetComponent<Collider>(), true);
-                    orgTransform = closestRB.transform.parent;
-                    closestRB.transform.parent = handTransform;
+                    if (closestRB == otherHandRB)
+                    {
+                        OnPickup(false, !right, ref otherHandRB, ref heldRB, ref otherHandJoint, ref handJoint);
+                    }
+                    KeyController keyController = closestRB.GetComponent<KeyController>();
+                    if (keyController != null)
+                    {
+                        keyController.OnRelease();
+                    }
+                    //closestRB.isKinematic = true;
+                    Collider[] RBColliders = closestRB.GetComponentsInChildren<Collider>();
+                    foreach (Collider col in RBColliders)
+                    {
+                        Physics.IgnoreCollision(playerCollider, col, true);
+                    }
+                    //orgTransform = closestRB.transform.parent;
+                    //closestRB.transform.parent = handTransform;
+                    handJoint.connectedBody = closestRB;
                     heldRB = closestRB;
                 }
             }
@@ -147,9 +168,20 @@ public class Pickup : MonoBehaviour
         {
             if (heldRB != null)
             {
-                heldRB.isKinematic = false;
-                Physics.IgnoreCollision(playerCollider, heldRB.GetComponent<Collider>(), false);
-                heldRB.transform.parent = orgTransform;
+                KeyController keyController = heldRB.GetComponent<KeyController>();
+                if (keyController != null)
+                {
+                    keyController.isPickedUp = false;
+                }
+                Debug.Log("MOGUES");
+                //heldRB.isKinematic = false;
+                Collider[] RBColliders = heldRB.GetComponentsInChildren<Collider>();
+                foreach (Collider col in RBColliders)
+                {
+                    Physics.IgnoreCollision(playerCollider, col, false);
+                }
+                //heldRB.transform.parent = orgTransform;
+                handJoint.connectedBody = null;
                 heldRB = null;
             }
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class KeyController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class KeyController : MonoBehaviour
     Stack<string> keyStack = new Stack<string>();
     [SerializeField] Transform initialNotchTransform;
     [SerializeField] GameObject initialNotch;
+    [SerializeField] TextMeshProUGUI keyText;
+    LockController currentLock;
     void Start()
     {
         keyStack.Push("z");
@@ -24,20 +27,34 @@ public class KeyController : MonoBehaviour
     {
         
     }
-
-    private void OnCollisionEnter(Collision collision)
+    public void OnRelease()
     {
-        // Check that collided object is indeed a lock
-        if(collision.gameObject.CompareTag("Lock"))
+        if (currentLock != null)
         {
-            LockController LC = collision.gameObject.GetComponent<LockController>();
-            if(LC.lockEnabled == false)
+            LockController LC = currentLock.gameObject.GetComponent<LockController>();
+            if (LC.lockEnabled == false)
             {
                 return;
             }
             // Ensure that the key matches the collided lock's symbol requirements
             bool isValid = TestTransition(LC.GetAcceptingSymbol(), LC.GetStackRequirement(), LC.GetStackReplacement(), LC.GetNotches());
             if (isValid) { LC.OnChosen(); }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check that collided object is indeed a lock
+        if (other.gameObject.CompareTag("Lock"))
+        {
+            currentLock = other.GetComponent<LockController>();
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Lock"))
+        {
+            currentLock = null;
         }
     }
     // Given the current state of the key, process what notches to remove/add and return whether the key meets lock requirements
@@ -52,6 +69,7 @@ public class KeyController : MonoBehaviour
         if (acceptingSymbol != "epsilon")
         {
             finalString += acceptingSymbol;
+            keyText.text = finalString;
         }
         string topOfStack = keyStack.Peek();
         GameObject topOfStackObj = notchStack.Peek();
