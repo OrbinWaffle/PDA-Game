@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class LockController : MonoBehaviour
 {
@@ -10,8 +11,7 @@ public class LockController : MonoBehaviour
     [SerializeField] string acceptingSymbol;
     [SerializeField] string stackRequirement;
     [SerializeField] string[] stackReplacement;
-    [Tooltip("List of objects corresponding to each symbol in stackReplacement")]
-    [SerializeField] GameObject[] notchObjects;
+    [SerializeField] TextMeshProUGUI lockText;
 
     public bool lockEnabled = true;
 
@@ -24,12 +24,22 @@ public class LockController : MonoBehaviour
         if (parentBridge != null)
         {
             parentIsland = transform.parent.parent.GetComponent<IslandController>();
+            if(targetIsland == null)
+            {
+                Debug.LogError("BRIDGE LOCK DOES NOT HAVE A TARGET ISLAND");
+            }
         }
         else
         {
             parentIsland = transform.parent.GetComponent<IslandController>();
         }
         parentIsland.AddLock(this);
+        string replacementString = "";
+        foreach (string symbol in stackReplacement)
+        {
+            replacementString += symbol;
+        }
+        lockText.text = "Adds: " + acceptingSymbol + "\nConsumes: " + stackRequirement + "\n" + "Gives: " + replacementString;
     }
     public void OnChosen()
     {
@@ -53,10 +63,6 @@ public class LockController : MonoBehaviour
     public string[] GetStackReplacement()
     {
         return stackReplacement;
-    }
-    public GameObject[] GetNotches()
-    {
-        return notchObjects;
     }
     public void SetLockIndex(int newIndex)
     {

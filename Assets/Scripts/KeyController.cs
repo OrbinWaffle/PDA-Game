@@ -29,7 +29,7 @@ public class KeyController : MonoBehaviour
     {
         
     }
-    public void OnRelease()
+    public void ActivateLock()
     {
         if (currentLock != null)
         {
@@ -39,7 +39,7 @@ public class KeyController : MonoBehaviour
                 return;
             }
             // Ensure that the key matches the collided lock's symbol requirements
-            bool isValid = TestTransition(LC.GetAcceptingSymbol(), LC.GetStackRequirement(), LC.GetStackReplacement(), LC.GetNotches());
+            bool isValid = TestTransition(LC.GetAcceptingSymbol(), LC.GetStackRequirement(), LC.GetStackReplacement());
             if (isValid)
             {
                 audSource.Play();
@@ -64,7 +64,7 @@ public class KeyController : MonoBehaviour
         }
     }
     // Given the current state of the key, process what notches to remove/add and return whether the key meets lock requirements
-    bool TestTransition(string acceptingSymbol, string stackRequirement, string[] stackReplacement, GameObject[] notches)
+    bool TestTransition(string acceptingSymbol, string stackRequirement, string[] stackReplacement)
     {
         if(keyStack.Peek() != stackRequirement && stackRequirement != "-")
         {
@@ -94,7 +94,7 @@ public class KeyController : MonoBehaviour
             if (stackReplacement[i] != "-")
             {
                 keyStack.Push(stackReplacement[i]);
-                AddNotch(notches[i]);
+                AddNotch(GemDictionary.main.GetObject(stackReplacement[i]));
             }
             else
             {
@@ -107,8 +107,8 @@ public class KeyController : MonoBehaviour
 
     void AddNotch(GameObject notchToAdd)
     {
-        Vector3 instantiatePos = initialNotchTransform.position + transform.forward * currentNotchDistance;
-        GameObject newNotch = Instantiate(notchToAdd, instantiatePos, transform.rotation, transform);
+        Vector3 instantiatePos = initialNotchTransform.position + initialNotchTransform.forward * currentNotchDistance;
+        GameObject newNotch = Instantiate(notchToAdd, instantiatePos, initialNotchTransform.rotation, transform);
         notchStack.Push(newNotch);
         currentNotchDistance += notchDistance;
     }
