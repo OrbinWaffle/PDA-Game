@@ -39,7 +39,12 @@ public class LockController : MonoBehaviour
         {
             replacementString += symbol;
         }
-        lockText.text = "Adds: " + acceptingSymbol + "\nConsumes: " + stackRequirement + "\n" + "Gives: " + replacementString;
+        string symbolToPrint = acceptingSymbol;
+        if(acceptingSymbol == "epsilon")
+        {
+            symbolToPrint = "x";
+        }
+        lockText.text = symbolToPrint + "\n\n" + stackRequirement + "\n\n" + replacementString;
     }
     public void OnChosen()
     {

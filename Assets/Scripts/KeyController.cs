@@ -91,7 +91,7 @@ public class KeyController : MonoBehaviour
         // Adding all notches to key
         for(int i = 0; i < stackReplacement.Length; ++i)
         {
-            if (stackReplacement[i] != "-")
+            if (stackReplacement[i] != "v")
             {
                 keyStack.Push(stackReplacement[i]);
                 AddNotch(GemDictionary.main.GetObject(stackReplacement[i]));

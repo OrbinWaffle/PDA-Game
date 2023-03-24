@@ -1974,10 +1974,14 @@ MonoBehaviour:
   symbols:
   - z
   - 0
-  - 1
+  - R
+  - S
+  - h
   objects:
   - {fileID: 6197382812348686319, guid: ef8ddb64cbd662d43a252b035d7f772e, type: 3}
   - {fileID: 6197382812348686319, guid: 98ae5f5e8a79d4a4d92e6f8adcece5ee, type: 3}
+  - {fileID: 6197382812348686319, guid: 0fe19d29e33563348ae6cf9ba5b6f598, type: 3}
+  - {fileID: 6197382812348686319, guid: 0fe19d29e33563348ae6cf9ba5b6f598, type: 3}
   - {fileID: 6197382812348686319, guid: 0fe19d29e33563348ae6cf9ba5b6f598, type: 3}
 --- !u!1 &1146812868
 GameObject:
@@ -2078,7 +2082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 1146812870}
-  m_MoveSpeed: 2
+  m_MoveSpeed: 10
   m_EnableStrafe: 1
   m_EnableFly: 0
   m_UseGravity: 1
@@ -2501,7 +2505,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
