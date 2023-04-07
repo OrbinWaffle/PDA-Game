@@ -37,7 +37,12 @@ public class LockController : MonoBehaviour
         string replacementString = "";
         foreach (string symbol in stackReplacement)
         {
-            replacementString += symbol;
+            string symbolToAdd = symbol;
+            if (symbol == "epsilon")
+            {
+                symbolToAdd = "x";
+            }
+            replacementString += symbolToAdd;
         }
         string symbolToPrint = acceptingSymbol;
         if(acceptingSymbol == "epsilon")

@@ -1361,6 +1361,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Map"",
+                    ""type"": ""Button"",
+                    ""id"": ""a0ce02f4-5a3d-4c09-9287-570a83a7ddd5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1891,6 +1900,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Teleport"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce4862f1-2028-42f7-be22-512257f7beaa"",
+                    ""path"": ""<XRController>{LeftHand}/secondaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Generic XR Controller"",
+                    ""action"": ""Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""288fb4d4-7332-431c-b9d0-e9d6bd344a44"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -2024,6 +2055,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_DefaultControls_Interact = m_DefaultControls.FindAction("Interact", throwIfNotFound: true);
         m_DefaultControls_Raise = m_DefaultControls.FindAction("Raise", throwIfNotFound: true);
         m_DefaultControls_Fall = m_DefaultControls.FindAction("Fall", throwIfNotFound: true);
+        m_DefaultControls_Map = m_DefaultControls.FindAction("Map", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -2511,6 +2543,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_DefaultControls_Interact;
     private readonly InputAction m_DefaultControls_Raise;
     private readonly InputAction m_DefaultControls_Fall;
+    private readonly InputAction m_DefaultControls_Map;
     public struct DefaultControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -2530,6 +2563,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_DefaultControls_Interact;
         public InputAction @Raise => m_Wrapper.m_DefaultControls_Raise;
         public InputAction @Fall => m_Wrapper.m_DefaultControls_Fall;
+        public InputAction @Map => m_Wrapper.m_DefaultControls_Map;
         public InputActionMap Get() { return m_Wrapper.m_DefaultControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2584,6 +2618,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Fall.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnFall;
                 @Fall.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnFall;
                 @Fall.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnFall;
+                @Map.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMap;
+                @Map.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMap;
+                @Map.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMap;
             }
             m_Wrapper.m_DefaultControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -2633,6 +2670,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Fall.started += instance.OnFall;
                 @Fall.performed += instance.OnFall;
                 @Fall.canceled += instance.OnFall;
+                @Map.started += instance.OnMap;
+                @Map.performed += instance.OnMap;
+                @Map.canceled += instance.OnMap;
             }
         }
     }
@@ -2732,5 +2772,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnRaise(InputAction.CallbackContext context);
         void OnFall(InputAction.CallbackContext context);
+        void OnMap(InputAction.CallbackContext context);
     }
 }

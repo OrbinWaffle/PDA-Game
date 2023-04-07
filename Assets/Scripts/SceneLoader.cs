@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.XR;
 
 public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader manager;
 
     public GameObject player;
+    [HideInInspector]
+    public Transform headTransform;
 
     private void Awake()
     {
         manager = this;
+        headTransform = player.GetComponentInChildren<TrackedPoseDriver>().transform;
     }
 
     // Start is called before the first frame update
