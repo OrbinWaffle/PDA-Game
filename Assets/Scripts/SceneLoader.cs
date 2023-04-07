@@ -7,7 +7,7 @@ public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader manager;
 
-    [SerializeField] GameObject player;
+    public GameObject player;
 
     private void Awake()
     {
