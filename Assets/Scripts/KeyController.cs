@@ -10,11 +10,14 @@ public class KeyController : MonoBehaviour
     // The current distance from initialNotchTransform to the place we want to actually add the notch
     float currentNotchDistance = 0f;
     Stack<GameObject> notchStack = new Stack<GameObject>();
-    string finalString;
+    string finalString = "";
     Stack<string> keyStack = new Stack<string>();
     [SerializeField] Transform initialNotchTransform;
     [SerializeField] GameObject initialNotch;
     [SerializeField] TextMeshProUGUI keyText;
+    [SerializeField] ParticleSystem fireParticle;
+    [SerializeField] ParticleSystem waterParticle;
+    [SerializeField] ParticleSystem lightningParticle;
     LockController currentLock;
     private AudioSource audSource;
     void Start()
@@ -77,6 +80,7 @@ public class KeyController : MonoBehaviour
             finalString += acceptingSymbol;
             keyText.text = finalString;
         }
+        UpdateParticles();
         string topOfStack = keyStack.Peek();
         GameObject topOfStackObj = notchStack.Peek();
         // In a real PDA, the top of the stack is replaced with something.
@@ -103,6 +107,15 @@ public class KeyController : MonoBehaviour
             }
         }
         return true;
+    }
+    void UpdateParticles()
+    {
+        fireParticle.Stop();
+        lightningParticle.Stop();
+        waterParticle.Stop();
+        if(finalString.EndsWith("R")){fireParticle.Play();}
+        if(finalString.EndsWith("S")){waterParticle.Play();}
+        if(finalString.EndsWith("h")){lightningParticle.Play();}
     }
 
     void AddNotch(GameObject notchToAdd)

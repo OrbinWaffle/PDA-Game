@@ -8,13 +8,14 @@ public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader manager;
 
-    public GameObject player;
+    private GameObject player;
     [HideInInspector]
     public Transform headTransform;
 
     private void Awake()
     {
         manager = this;
+        player = GameObject.FindGameObjectWithTag("Player");
         headTransform = player.GetComponentInChildren<TrackedPoseDriver>().transform;
     }
 
