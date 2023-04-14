@@ -33,9 +33,15 @@ public class SceneLoader : MonoBehaviour
 
     public void SwitchScene(int sceneIndex)
     {
+        StartCoroutine(SwitchSceneCoroutine(sceneIndex));
+    }
+    IEnumerator SwitchSceneCoroutine(int sceneIndex)
+    {
         DontDestroyOnLoad(player);
         DontDestroyOnLoad(gameObject);
-        SceneManager.LoadScene(sceneIndex);
+        yield return SceneManager.LoadSceneAsync(sceneIndex);
+        player.transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
+        player.transform.rotation = GameObject.FindGameObjectWithTag("SpawnPoint").transform.rotation;
     }
 
     public void ReloadScene()

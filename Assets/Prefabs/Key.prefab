@@ -10621,7 +10621,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 50
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -10674,7 +10674,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 100
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -11826,12 +11826,12 @@ ParticleSystem:
         m_RotationOrder: 4
     inWorldSpace: 1
   InheritVelocityModule:
-    enabled: 0
+    enabled: 1
     m_Mode: 0
     m_Curve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.75
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -13378,7 +13378,7 @@ ParticleSystem:
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -14629,7 +14629,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!82 &5551352400120864535
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15034,7 +15034,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 451220, guid: c34a67cb83e3b5449b55243207b1b621, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0254
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 451220, guid: c34a67cb83e3b5449b55243207b1b621, type: 3}
       propertyPath: m_LocalPosition.y
