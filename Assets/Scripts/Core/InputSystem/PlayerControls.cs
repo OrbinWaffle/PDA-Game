@@ -493,6 +493,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""6edf38ee-c0c2-4ca4-a7cd-acc8bdb0e383"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Select Value"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""25482400-cd88-4a74-810c-4bbe48b8a775"",
                     ""path"": ""<XRController>{LeftHand}/triggerPressed"",
                     ""interactions"": """",
@@ -509,6 +520,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Generic XR Controller"",
+                    ""action"": ""Activate Value"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc8410a5-1b15-45cd-80ca-7e78619f158e"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
                     ""action"": ""Activate Value"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1069,6 +1091,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""b5be3af8-9841-49b9-a130-e78507018ffc"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Select Value"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""99ac48b1-c7d1-41d7-9538-586246a34fe0"",
                     ""path"": ""<XRController>{RightHand}/triggerPressed"",
                     ""interactions"": """",
@@ -1085,6 +1118,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Generic XR Controller"",
+                    ""action"": ""Activate Value"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d030ec73-5e35-46b9-a1e5-26afb77984af"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
                     ""action"": ""Activate Value"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
