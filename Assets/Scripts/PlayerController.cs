@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Death"))
         {
-            SceneLoader.manager.ReloadScene();
+            SceneLoader.instance.ReloadScene();
         }    
     }
 }

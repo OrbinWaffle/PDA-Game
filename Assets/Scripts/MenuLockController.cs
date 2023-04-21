@@ -14,7 +14,7 @@ public class MenuLockController : MonoBehaviour
         {
             doorAnim.enabled = true;
             yield return new WaitForSeconds(loadWait);
-            SceneLoader.manager.SwitchScene(sceneIdLoaded);
+            SceneLoader.instance.SwitchScene(sceneIdLoaded);
         }
     }
 }

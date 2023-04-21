@@ -2,27 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem.XR;
 
 public class SceneLoader : MonoBehaviour
 {
-    public static SceneLoader manager;
+    public static SceneLoader instance;
 
-    private GameObject player;
-    [HideInInspector]
-    public Transform headTransform;
+    GameObject player;
 
     private void Awake()
     {
-        manager = this;
-        player = GameObject.FindGameObjectWithTag("Player");
-        headTransform = player.GetComponentInChildren<TrackedPoseDriver>().transform;
+        instance = this;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameManager.instance.player;
     }
 
     // Update is called once per frame
@@ -40,6 +35,7 @@ public class SceneLoader : MonoBehaviour
         DontDestroyOnLoad(player);
         DontDestroyOnLoad(gameObject);
         yield return SceneManager.LoadSceneAsync(sceneIndex);
+        GameManager.instance.UpdateTime();
         player.transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
         player.transform.rotation = GameObject.FindGameObjectWithTag("SpawnPoint").transform.rotation;
     }

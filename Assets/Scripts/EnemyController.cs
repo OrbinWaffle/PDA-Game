@@ -1,0 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyController : MonoBehaviour
+{
+    Transform player;
+    public float enemyMoveSpeed = 10f;
+    public float targetOffset = 5f;
+    bool sawlast = false;
+    Rigidbody rb;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        player = GameManager.instance.headTransform;
+
+        rb = GetComponent<Rigidbody>();
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        FollowPlayer();
+    }
+
+    private void FollowPlayer()
+    {
+        // If there's not anything between the enemy and the player, move towards the player
+        RaycastHit hit;
+        bool obstructed = Physics.Linecast(transform.position, player.position, out hit);
+
+        if (obstructed)
+            Debug.Log(hit.collider.gameObject.name);
+
+        if (!obstructed)
+        {
+            Vector3 moveDir = ((player.position + new Vector3(0, targetOffset, 0)) - transform.position).normalized;
+            //rb.MovePosition(player.transform.position + moveVector * Time.deltaTime);
+            rb.AddForce(moveDir * enemyMoveSpeed, ForceMode.Acceleration);
+        }
+    }
+
+    private void RandomPush()
+    {
+
+    }
+}

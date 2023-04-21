@@ -8,7 +8,7 @@ public class Tracker : MonoBehaviour
 
     private void Start()
     {
-        headTransform = SceneLoader.manager.headTransform;
+        headTransform = GameManager.instance.headTransform;
     }
     private void Update()
     {

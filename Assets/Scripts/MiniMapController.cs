@@ -21,7 +21,7 @@ public class MiniMapController : MonoBehaviour
     void Start()
     {
         InputManager.instance.playerActions.DefaultControls.Map.started += ToggleZoom;
-        headTransform = SceneLoader.manager.headTransform;
+        headTransform = GameManager.instance.headTransform;
 
         fullscreenPos = transform.position;
         camera = GetComponent<Camera>();
