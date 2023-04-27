@@ -11,7 +11,8 @@ public class LockController : MonoBehaviour
     [SerializeField] string acceptingSymbol;
     [SerializeField] string stackRequirement;
     [SerializeField] string[] stackReplacement;
-    [SerializeField] TextMeshProUGUI lockText;
+    TextMeshProUGUI lockText;
+    protected Transform keyPosition;
 
     public bool lockEnabled = true;
 
@@ -19,6 +20,10 @@ public class LockController : MonoBehaviour
     private int lockIndex;
 
     private void Awake()
+    {
+        OnAwake();
+    }
+    public virtual void OnAwake()
     {
         parentBridge = transform.parent.GetComponent<BridgeController>();
         if (parentBridge != null)
@@ -49,10 +54,13 @@ public class LockController : MonoBehaviour
         {
             symbolToPrint = "x";
         }
+        lockText = transform.Find("Model/Canvas/Symbols").GetComponent<TextMeshProUGUI>();
+        keyPosition = transform.Find("KeyPosition");
         lockText.text = symbolToPrint + "\n\n" + stackRequirement + "\n\n" + replacementString;
     }
-    public void OnChosen()
+    public virtual void OnChosen()
     {
+        Debug.Log("AAAAAAAAA");
         // Tell parent bridge that this lock was chosen
         parentIsland.OnLockChosen();
         if (parentBridge != null)
@@ -81,5 +89,9 @@ public class LockController : MonoBehaviour
     public void SetLockState(bool newState)
     {
         lockEnabled = newState;
+    }
+    public Transform GetKeyPos()
+    {
+        return keyPosition;
     }
 }

@@ -4,23 +4,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static GameObject playerInstance;
+    void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Death"))
+        if(playerInstance == null)
         {
-            SceneLoader.instance.ReloadScene();
-        }    
+            playerInstance = gameObject;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

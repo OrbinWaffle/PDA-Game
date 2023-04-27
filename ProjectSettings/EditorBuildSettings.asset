@@ -15,10 +15,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Level.unity
     guid: 52b9b68440f0dd348b8874869de2f357
   - enabled: 1
-    path: Assets/Scenes/LevelOne.unity
+    path: Assets/Scenes/LevelABC.unity
     guid: 8d340afb6d32a26458f30c7ca71d8ad7
   - enabled: 1
-    path: Assets/Scenes/LevelTwo.unity
+    path: Assets/Scenes/LevelPalindrome.unity
     guid: 482b940fbc7bb5b488875afe0f7980ee
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: caa584114bbcdd64aaca1a44528273c7, type: 2}

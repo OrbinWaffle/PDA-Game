@@ -18,6 +18,8 @@ public class KeyController : MonoBehaviour
     [SerializeField] ParticleSystem fireParticle;
     [SerializeField] ParticleSystem waterParticle;
     [SerializeField] ParticleSystem lightningParticle;
+
+    Rigidbody RB;
     LockController currentLock;
     private AudioSource audSource;
     void Start()
@@ -25,6 +27,7 @@ public class KeyController : MonoBehaviour
         keyStack.Push("z");
         AddNotch(initialNotch);
         audSource = GetComponent<AudioSource>();
+        RB = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -34,6 +37,7 @@ public class KeyController : MonoBehaviour
     }
     public void ActivateLock()
     {
+        RB.isKinematic = false;
         if (currentLock != null)
         {
             LockController LC = currentLock.gameObject.GetComponent<LockController>();
@@ -43,12 +47,20 @@ public class KeyController : MonoBehaviour
             }
             // Ensure that the key matches the collided lock's symbol requirements
             bool isValid = TestTransition(LC.GetAcceptingSymbol(), LC.GetStackRequirement(), LC.GetStackReplacement());
-            if (isValid)
+            if (isValid || LC.GetType() == typeof(MenuLockController))
             {
                 audSource.Play();
                 LC.OnChosen();
+                Transform keyPos = LC.GetKeyPos();
+                transform.position = keyPos.position;
+                transform.rotation = keyPos.rotation;
+                RB.isKinematic = true;
             }
         }
+    }
+
+    public void OnPickup()
+    {
     }
 
     private void OnTriggerEnter(Collider other)
@@ -69,7 +81,7 @@ public class KeyController : MonoBehaviour
     // Given the current state of the key, process what notches to remove/add and return whether the key meets lock requirements
     bool TestTransition(string acceptingSymbol, string stackRequirement, string[] stackReplacement)
     {
-        if(keyStack.Peek() != stackRequirement && stackRequirement != "-")
+        if(keyStack.Peek() != stackRequirement && stackRequirement != "v")
         {
             return false;
         }

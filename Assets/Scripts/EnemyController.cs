@@ -30,14 +30,19 @@ public class EnemyController : MonoBehaviour
         RaycastHit hit;
         bool obstructed = Physics.Linecast(transform.position, player.position, out hit);
 
-        if (obstructed)
-            Debug.Log(hit.collider.gameObject.name);
-
         if (!obstructed)
         {
             Vector3 moveDir = ((player.position + new Vector3(0, targetOffset, 0)) - transform.position).normalized;
             //rb.MovePosition(player.transform.position + moveVector * Time.deltaTime);
             rb.AddForce(moveDir * enemyMoveSpeed, ForceMode.Acceleration);
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.CompareTag("Key"))
+        {
+            Destroy(gameObject);
         }
     }
 
