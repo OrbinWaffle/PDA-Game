@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] GameObject deathParticle;
     Transform player;
     public float enemyMoveSpeed = 10f;
+    public float enemySpinSpeed = 1f;
     public float targetOffset = 5f;
     bool sawlast = false;
     Rigidbody rb;
@@ -35,6 +37,7 @@ public class EnemyController : MonoBehaviour
             Vector3 moveDir = ((player.position + new Vector3(0, targetOffset, 0)) - transform.position).normalized;
             //rb.MovePosition(player.transform.position + moveVector * Time.deltaTime);
             rb.AddForce(moveDir * enemyMoveSpeed, ForceMode.Acceleration);
+            rb.AddTorque(Vector3.up * enemySpinSpeed, ForceMode.Acceleration);
         }
     }
 
@@ -42,12 +45,8 @@ public class EnemyController : MonoBehaviour
     {
         if(collision.collider.CompareTag("Key"))
         {
+            Instantiate(deathParticle, transform.position, transform.rotation);
             Destroy(gameObject);
         }
-    }
-
-    private void RandomPush()
-    {
-
     }
 }

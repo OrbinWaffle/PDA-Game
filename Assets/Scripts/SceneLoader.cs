@@ -34,6 +34,8 @@ public class SceneLoader : MonoBehaviour
     {
         DontDestroyOnLoad(player);
         DontDestroyOnLoad(gameObject);
+        PlayerController.playerInstance.GetComponent<Animator>().SetTrigger("FadeIn");
+        yield return new WaitForSeconds(1f);
         yield return SceneManager.LoadSceneAsync(sceneIndex);
         GameManager.instance.UpdateTime();
         player.transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;

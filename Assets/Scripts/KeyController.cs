@@ -18,10 +18,17 @@ public class KeyController : MonoBehaviour
     [SerializeField] ParticleSystem fireParticle;
     [SerializeField] ParticleSystem waterParticle;
     [SerializeField] ParticleSystem lightningParticle;
+    [SerializeField] AudioClip lockSound;
+    [SerializeField] AudioClip failSound;
+    public static KeyController instance;
 
     Rigidbody RB;
     LockController currentLock;
     private AudioSource audSource;
+    void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
         keyStack.Push("z");
@@ -49,12 +56,18 @@ public class KeyController : MonoBehaviour
             bool isValid = TestTransition(LC.GetAcceptingSymbol(), LC.GetStackRequirement(), LC.GetStackReplacement());
             if (isValid || LC.GetType() == typeof(MenuLockController))
             {
+                audSource.clip = lockSound;
                 audSource.Play();
                 LC.OnChosen();
                 Transform keyPos = LC.GetKeyPos();
                 transform.position = keyPos.position;
                 transform.rotation = keyPos.rotation;
                 RB.isKinematic = true;
+            }
+            else
+            {
+                audSource.clip = failSound;
+                audSource.Play();
             }
         }
     }

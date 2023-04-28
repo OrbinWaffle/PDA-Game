@@ -1414,6 +1414,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Recall"",
+                    ""type"": ""Button"",
+                    ""id"": ""52e25f35-180a-432c-9e83-2b3a80709c62"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1966,6 +1975,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Map"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04803cec-bd88-438f-90e6-d71595cd3ad9"",
+                    ""path"": ""<XRController>{RightHand}/thumbstickClicked"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Generic XR Controller"",
+                    ""action"": ""Recall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -2100,6 +2120,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_DefaultControls_Raise = m_DefaultControls.FindAction("Raise", throwIfNotFound: true);
         m_DefaultControls_Fall = m_DefaultControls.FindAction("Fall", throwIfNotFound: true);
         m_DefaultControls_Map = m_DefaultControls.FindAction("Map", throwIfNotFound: true);
+        m_DefaultControls_Recall = m_DefaultControls.FindAction("Recall", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -2588,6 +2609,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_DefaultControls_Raise;
     private readonly InputAction m_DefaultControls_Fall;
     private readonly InputAction m_DefaultControls_Map;
+    private readonly InputAction m_DefaultControls_Recall;
     public struct DefaultControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -2608,6 +2630,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Raise => m_Wrapper.m_DefaultControls_Raise;
         public InputAction @Fall => m_Wrapper.m_DefaultControls_Fall;
         public InputAction @Map => m_Wrapper.m_DefaultControls_Map;
+        public InputAction @Recall => m_Wrapper.m_DefaultControls_Recall;
         public InputActionMap Get() { return m_Wrapper.m_DefaultControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2665,6 +2688,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Map.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMap;
                 @Map.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMap;
                 @Map.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnMap;
+                @Recall.started -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnRecall;
+                @Recall.performed -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnRecall;
+                @Recall.canceled -= m_Wrapper.m_DefaultControlsActionsCallbackInterface.OnRecall;
             }
             m_Wrapper.m_DefaultControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -2717,6 +2743,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Map.started += instance.OnMap;
                 @Map.performed += instance.OnMap;
                 @Map.canceled += instance.OnMap;
+                @Recall.started += instance.OnRecall;
+                @Recall.performed += instance.OnRecall;
+                @Recall.canceled += instance.OnRecall;
             }
         }
     }
@@ -2817,5 +2846,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnRaise(InputAction.CallbackContext context);
         void OnFall(InputAction.CallbackContext context);
         void OnMap(InputAction.CallbackContext context);
+        void OnRecall(InputAction.CallbackContext context);
     }
 }

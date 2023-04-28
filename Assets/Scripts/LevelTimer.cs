@@ -26,13 +26,14 @@ public class LevelTimer : MonoBehaviour
     void Update()
     {
         float curTime = GetTime();
-        timerText.text = "Time left: " + TimeSpan.FromSeconds(curTime).Minutes + ":"
+        timerText.text = "Time taken: " + TimeSpan.FromSeconds(curTime).Minutes + ":"
                             + TimeSpan.FromSeconds(curTime).Seconds;
     }
 
     float GetTime()
     {
-        return (timer - (Time.time - timeStarted));
+        //return (timer - (Time.time - timeStarted));
+        return Time.time - timeStarted;
     }
     public void StartTimer(float startTime)
     {
