@@ -3134,7 +3134,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-514464
+  m_Name: pb_Mesh-468142
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7763,7 +7763,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &447992926
 GameObject:
@@ -12795,7 +12795,7 @@ Transform:
   m_LocalScale: {x: 32, y: 1, z: 32}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &772807848
 PrefabInstance:
@@ -18995,7 +18995,7 @@ MonoBehaviour:
   stackRequirement: 
   stackReplacement: []
   lockEnabled: 1
-  sceneIdLoaded: 0
+  sceneIdLoaded: 4
   loadWait: 2
   doorAnim: {fileID: 857946573}
 --- !u!1 &1146874026
@@ -32296,7 +32296,7 @@ Transform:
   - {fileID: 302674486}
   - {fileID: 1567853281}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1970344781
 PrefabInstance:
@@ -44960,7 +44960,7 @@ Transform:
   - {fileID: 139729460}
   - {fileID: 481548361}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &5439851779724332148
 Transform:
@@ -45003,7 +45003,7 @@ Transform:
   - {fileID: 915462380}
   - {fileID: 1925222119}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &5439851780405255806
 Transform:
