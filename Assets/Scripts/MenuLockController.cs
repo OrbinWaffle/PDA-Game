@@ -7,6 +7,8 @@ public class MenuLockController : LockController
     [SerializeField] int sceneIdLoaded;
     [SerializeField] float loadWait;
     [SerializeField] Animator doorAnim;
+    [SerializeField] bool saveString;
+    [SerializeField] bool clearString;
 
     public override void OnAwake()
     {
@@ -15,6 +17,14 @@ public class MenuLockController : LockController
     }
     public override void OnChosen()
     {
+        if(clearString)
+        {
+            GameManager.instance.ClearString();
+        }
+        else if(saveString)
+        {
+            GameManager.instance.SaveString();
+        }
         StartCoroutine(SwitchScene());
     }
 

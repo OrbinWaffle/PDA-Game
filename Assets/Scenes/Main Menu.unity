@@ -626,10 +626,13 @@ MonoBehaviour:
   acceptingSymbol: 
   stackRequirement: 
   stackReplacement: []
+  autoWrite: 1
   lockEnabled: 1
   sceneIdLoaded: 2
   loadWait: 2
   doorAnim: {fileID: 1620808397}
+  saveString: 0
+  clearString: 0
 --- !u!1001 &109004647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4446,7 +4449,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh835438
+  m_Name: pb_Mesh-561702
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5229,9 +5232,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1078358879}
     m_Modifications:
+    - target: {fileID: 112374, guid: 488fb4bf55e88e243a3d0bfaa7e42703, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 133362, guid: 488fb4bf55e88e243a3d0bfaa7e42703, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 135286, guid: 488fb4bf55e88e243a3d0bfaa7e42703, type: 3}
       propertyPath: m_Name
       value: candle3
+      objectReference: {fileID: 0}
+    - target: {fileID: 135286, guid: 488fb4bf55e88e243a3d0bfaa7e42703, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 155778, guid: 488fb4bf55e88e243a3d0bfaa7e42703, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 167274, guid: 488fb4bf55e88e243a3d0bfaa7e42703, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 428926, guid: 488fb4bf55e88e243a3d0bfaa7e42703, type: 3}
       propertyPath: m_RootOrder
@@ -6140,10 +6163,13 @@ MonoBehaviour:
   acceptingSymbol: 
   stackRequirement: 
   stackReplacement: []
+  autoWrite: 1
   lockEnabled: 1
   sceneIdLoaded: 3
   loadWait: 2
   doorAnim: {fileID: 1620808397}
+  saveString: 0
+  clearString: 0
 --- !u!1001 &1329642323
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7444,6 +7470,18 @@ PrefabInstance:
     - target: {fileID: 153858, guid: 197f1dd69d9d0e345a27bdc2001f4358, type: 3}
       propertyPath: m_Name
       value: candle2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 153858, guid: 197f1dd69d9d0e345a27bdc2001f4358, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 160304, guid: 197f1dd69d9d0e345a27bdc2001f4358, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 190918, guid: 197f1dd69d9d0e345a27bdc2001f4358, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 436140, guid: 197f1dd69d9d0e345a27bdc2001f4358, type: 3}
       propertyPath: m_RootOrder
@@ -9524,6 +9562,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: candle2
       objectReference: {fileID: 0}
+    - target: {fileID: 153858, guid: 197f1dd69d9d0e345a27bdc2001f4358, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 160304, guid: 197f1dd69d9d0e345a27bdc2001f4358, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 190918, guid: 197f1dd69d9d0e345a27bdc2001f4358, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 436140, guid: 197f1dd69d9d0e345a27bdc2001f4358, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -9931,7 +9981,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh835136
+  m_Name: pb_Mesh-561168
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

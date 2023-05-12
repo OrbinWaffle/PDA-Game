@@ -35,6 +35,7 @@ public class KeyController : MonoBehaviour
         AddNotch(initialNotch);
         audSource = GetComponent<AudioSource>();
         RB = GetComponent<Rigidbody>();
+        GameManager.instance.LoadString();
     }
 
     // Update is called once per frame
@@ -75,6 +76,15 @@ public class KeyController : MonoBehaviour
     public void OnPickup()
     {
     }
+    public string GetFinalString()
+    {
+        return finalString;
+    }
+    public void SetString(string newString)
+    {
+        finalString = newString;
+        keyText.text = finalString;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -105,7 +115,6 @@ public class KeyController : MonoBehaviour
             finalString += acceptingSymbol;
             keyText.text = finalString;
         }
-        UpdateParticles();
         string topOfStack = keyStack.Peek();
         GameObject topOfStackObj = notchStack.Peek();
         // In a real PDA, the top of the stack is replaced with something.
@@ -115,6 +124,7 @@ public class KeyController : MonoBehaviour
         // If we want to pop stuff off the stack without adding anything
         if (stackReplacement[0] == "epsilon")
         {
+            UpdateParticles();
             return true;
         }
         // Adding all notches to key
@@ -131,6 +141,7 @@ public class KeyController : MonoBehaviour
                 AddNotch(topOfStackObj);
             }
         }
+        UpdateParticles();
         return true;
     }
     void UpdateParticles()
@@ -138,9 +149,9 @@ public class KeyController : MonoBehaviour
         fireParticle.Stop();
         lightningParticle.Stop();
         waterParticle.Stop();
-        if(finalString.EndsWith("R")){fireParticle.Play();}
-        if(finalString.EndsWith("S")){waterParticle.Play();}
-        if(finalString.EndsWith("h")){lightningParticle.Play();}
+        if(keyStack.Peek() == "R"){fireParticle.Play();}
+        if(keyStack.Peek() == "S"){waterParticle.Play();}
+        if(keyStack.Peek() == "h"){lightningParticle.Play();}
     }
 
     void AddNotch(GameObject notchToAdd)

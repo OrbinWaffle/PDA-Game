@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public GameObject player;
     [HideInInspector] public Transform headTransform;
-
+    public string savedString;
 
     private void Awake()
     {
@@ -20,5 +20,17 @@ public class GameManager : MonoBehaviour
     public void UpdateTime()
     {
         LevelTimer.instance.StartTimer(FindObjectOfType<SceneInfo>().time);
+    }
+    public void SaveString()
+    {
+        savedString = KeyController.instance.GetFinalString();
+    }
+    public void ClearString()
+    {
+        savedString = "";
+    }
+    public void LoadString()
+    {
+        KeyController.instance.SetString(savedString);
     }
 }

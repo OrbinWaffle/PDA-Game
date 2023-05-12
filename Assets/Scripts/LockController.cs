@@ -11,6 +11,7 @@ public class LockController : MonoBehaviour
     [SerializeField] string acceptingSymbol;
     [SerializeField] string stackRequirement;
     [SerializeField] string[] stackReplacement;
+    [SerializeField] bool autoWrite = true;
     TextMeshProUGUI lockText;
     protected Transform keyPosition;
 
@@ -39,28 +40,31 @@ public class LockController : MonoBehaviour
             parentIsland = transform.parent.GetComponent<IslandController>();
         }
         parentIsland.AddLock(this);
-        string replacementString = "";
-        foreach (string symbol in stackReplacement)
-        {
-            string symbolToAdd = symbol;
-            if (symbol == "epsilon")
-            {
-                symbolToAdd = "x";
-            }
-            replacementString += symbolToAdd;
-        }
-        string symbolToPrint = acceptingSymbol;
-        if(acceptingSymbol == "epsilon")
-        {
-            symbolToPrint = "x";
-        }
-        lockText = transform.Find("Model/Canvas/Symbols").GetComponent<TextMeshProUGUI>();
         keyPosition = transform.Find("KeyPosition");
-        lockText.text = symbolToPrint + "\n\n" + stackRequirement + "\n\n" + replacementString;
+        if(autoWrite)
+        {
+            string replacementString = "";
+            foreach (string symbol in stackReplacement)
+            {
+                string symbolToAdd = symbol;
+                if (symbol == "epsilon")
+                {
+                    symbolToAdd = "x";
+                }
+                replacementString += symbolToAdd;
+            }
+            string symbolToPrint = acceptingSymbol;
+            if(acceptingSymbol == "epsilon")
+            {
+                symbolToPrint = "x";
+            }
+            lockText = transform.Find("Model/Canvas/Symbols").GetComponent<TextMeshProUGUI>();
+
+            lockText.text = symbolToPrint + "\n\n" + stackRequirement + "\n\n" + replacementString;
+        }
     }
     public virtual void OnChosen()
     {
-        Debug.Log("AAAAAAAAA");
         // Tell parent bridge that this lock was chosen
         parentIsland.OnLockChosen();
         if (parentBridge != null)
